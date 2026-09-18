@@ -145,6 +145,7 @@ flowchart TD
 - [ ] 是否坚决杜绝了私自添加静默重试（Retry）或默认值兜底（Fallback）？
 - [ ] 代码修改是否符合最小破坏性原则，没有夹带大面积无关修改？
 - [ ] 是否在终端真实运行了验证命令，并附带了 Exit Code 0 与测试输出铁证？
+- [ ] 若属于高价值/深机理 Bug，是否已沉淀归档至 docs/04_operations/post_mortems/？
 
 ---
 
@@ -177,3 +178,10 @@ git bisect bad HEAD                  # 当前版本有 Bug
 git bisect good <known-good-commit>  # 上一个确定正常的版本
 git bisect run go test ./...         # 自动运行单测直至揪出破坏者 Commit
 ```
+
+### 6.4 高价值故障归档与永久免疫沉淀 (Post-Mortem Archiving)
+当排查并修复的缺陷属于**高价值深度 Bug**（涉及并发竞态、隐蔽资源泄漏、第三方反直觉黑盒行为、状态机隐蔽非法跃迁）时：
+- **禁止排障随风而逝**：严禁修复后不留痕迹导致未来同类 Bug 再次发生；
+- **强制归档沉淀**：严格遵循 `project-documentation` 技能规范，将 RCA 报告、错误反例与优雅解法、防回潮单测收录归档至项目文档库：
+  `docs/04_operations/post_mortems/case_YYYYMMDD_<topic>.md`；
+- 将故障教训转化为系统永久免疫资产，为后续人类开发者与 AI Agent 树立明确的防坑路标。
